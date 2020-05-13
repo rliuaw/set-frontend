@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://web.mit.edu/6.031/www/sp20/psets/ps4/play/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 
+<title>Play Memory Scramble</title>
+<link href="./index_files/handout-style.css" rel="stylesheet">
+<link href="./index_files/memory.css" rel="stylesheet">
+<style>
+body {
+  margin: 38px;
+}
+h1 {
+  margin: 0;
+  float: right;
+  font-style: italic;
+}
+#memory-server {
+  max-width: 14em;
+}
+#memory-scores {
+  float: right;
+  clear: right;
+  margin-top: 34px;
+}
+#memory-board {
+  margin-top: 38px;
+  font-size: 38px;
+}
+#memory-notes {
+  float: left;
+  margin: 38px 0;
+}
+</style>
+</head>
+<body class="vsc-initialized">
+<h1>Memory Scramble</h1>
+<div class="form-inline">
+<input id="memory-server" class="form-control" type="text" value="localhost:8080" autofocus="">
+<button id="memory-play" class="btn btn-info">play!</button>
+</div>
+<table id="memory-scores" class="memory-scores"></table>
+<table id="memory-board" class="memory-board"></table>
+<div id="memory-notes" class="panel panel-default text-muted">
+<div class="panel-body">
+Cards you control are yellow. A card you are blocked on is green.
+<br>
+To see logging output and errors, open your browser’s JavaScript Console.
+</div>
+</div>
+<script src="./index_files/memory.js.download"></script>
+<script>memoryGame()</script>
+<script>
+(function saveAndRestoreServer() {
+  var server = document.getElementById('memory-server');
+  var cookie = 'memory-scramble-server';
+  window.addEventListener('unload', function() {
+    document.cookie = cookie + '=' + server.value + ';max-age=5';
+  });
+  var saved = new RegExp(cookie + '=([^;]+)').exec(document.cookie);
+  if (saved) { server.value = saved[1]; }
+})();
+</script>
+
+
+</body></html>

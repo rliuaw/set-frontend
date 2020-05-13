@@ -1,0 +1,40 @@
+table.memory-board {
+  border-spacing: 2px;
+  border-collapse: separate;
+}
+table.memory-board tr td {
+  width: 2em;
+  height: 2.2em;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  color: rgba(0, 0, 0, 0);
+  padding: 0 !important;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+table.memory-board td:not(:empty) {
+  background: gray;
+}
+table.memory-board td:empty.card-visible {
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+table.memory-board td.card-visible {
+  color: rgba(0, 0, 0, 1);
+  background: white;
+}
+table.memory-board td.card-visible.card-control {
+  background: rgba(255, 255, 0, .25);
+  border-color: rgb(128, 64, 0);
+}
+table.memory-board td.card-blocked {
+  background: rgba(0, 255, 0, .25);
+  border-color: rgb(64, 128, 0);
+  cursor: wait;
+}
+table.memory-scores th,
+table.memory-scores td {
+  padding: 1px 1em;
+}
