@@ -1,0 +1,209 @@
+/*
+ * Course Handout Style
+ */
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+
+/* purple and gray */
+body header { background: #659; }
+body footer { background: #999; }
+body .nav > li.active > a { background-color: #659; }
+body .remark-slide-content.chapter h1 { background: #659; }
+body .remark-slide-content.chapter p { color: #999; }
+a.jump { color: #659; }
+
+/* typography */
+header, footer, h1, h2, h3, h4, h5, h6, nav {
+  font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+.remark-slide, .video-status {
+  font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* tweak headers */
+h3 { font-size: 22px; }
+h4 { font-size: 17px; }
+.exercises h4 { text-transform: uppercase; }
+
+/* purple exercises */
+.exercises h4 { color: #659; }
+.exercises .panel-heading {
+  color: #659;
+  background-color: #e1def2;
+}
+.exercises .panel {
+  border-color: #d1c7ef;
+}
+.exercises .panel>.panel-heading+.panel-collapse>.panel-body {
+  border-top-color: #d1c7ef;
+}
+
+/* syntax highlighting with Eclipse colors */
+.hljs,
+.hljs-subst { color: #333; }
+.hljs-keyword,
+.hljs-attribute,
+.hljs-selector-tag,
+.hljs-meta-keyword,
+.hljs-doctag,
+.hljs-name { color: rgb(127,0,85); }
+.hljs-built_in,
+.hljs-bullet,
+.hljs-code,
+.hljs-addition { color: #2C6F2C; }
+.hljs-literal { color: #4D974D; }
+.hljs-regexp,
+.hljs-symbol,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo { color: #BC6060; }
+.hljs-type,
+.hljs-string,
+/* .hljs-number, */
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion { color: rgb(41,0,255); }
+.hljs-title,
+.hljs-section { color: #333; }
+.hljs-comment { color: rgb(63,127,95); }
+.hljs-meta { color: rgb(100,100,100); }
+/* .hljs-meta-string { color: #6CA8D6; } */
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.handout-javadoc-comment { color: rgb(63,95,191); }
+.handout-javadoc-comment .hljs-doctag { color: rgb(127,159,191); }
+
+/* specifications */
+.panel.handout-spec {
+  margin-bottom: 10px;
+}
+.panel.handout-spec > pre ,
+.panel.handout-spec > p {
+  background: none;
+  padding: 9.5px;
+  margin-bottom: 0;
+  border: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.panel.handout-spec > pre:not(:first-child),
+.panel.handout-spec > p:not(:first-child) {
+  padding-top: 3px;
+}
+.panel.handout-spec > pre:not(:last-child),
+.panel.handout-spec > p:not(:last-child) {
+  padding-bottom: 3px;
+}
+.panel.handout-spec > pre + dl dt,
+.panel.handout-spec > p + dl dt {
+  width: 70px;
+  font-weight: normal;
+  font-style: italic;
+}
+.panel.handout-spec > pre + dl dd,
+.panel.handout-spec > p + dl dd {
+  margin-left: 80px;
+  margin-right: 10px;
+}
+.panel.handout-spec > pre + dl dd:after,
+.panel.handout-spec > p + dl dd:after {
+  clear: left;
+}
+
+/* Java Tutor rendering */
+.level {
+  margin: auto;
+  background-color: white;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #D6D6D6;
+}
+
+.conceptGroup {
+  width: 225px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 10px;
+  margin-botttom: 3px;
+  margin-top:3px;
+  background-color: white;
+  border:1px solid rgb(167,189,239);
+}
+
+.conceptGroup .checkMark {
+  visibility: hidden;
+}
+
+.conceptGroup .conceptBox {
+  background-color: rgba(201,215,248, 0);
+}
+
+.conceptGroup.completed {
+  border: 1px solid rgb(101,204,57);
+}
+
+.conceptGroup.completed .checkMark {
+  visibility: visible;
+}
+
+.conceptGroup.completed .conceptBox {
+  background-color: rgb(101,204,57) !important;
+}
+
+.conceptGroupButton {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  border: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 30px;
+  line-height: 30px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: 1px solid #A5A5A5;
+  background-color: rgba(167,189,239,0.2);
+}
+
+.conceptGroup.completed .conceptGroupButton {
+  position: relative;
+  background-color: rgba(101,204,57,0.8);
+}
+
+.checkMark {
+  color: rgb(0, 121, 11);
+  font-weight: bold;
+  padding-left: 5px;
+  font-size: 2em;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  height: 30px;
+}
+
+.conceptGroupUiLabel {
+  float: middle;
+}
+
+.numberSetsLeft {
+  float: right;
+}
+
+.conceptBoxes {
+  font-size: 0;
+  padding: 10px;
+}
+
+.conceptBox {
+  position: relative;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #A5A5A5;
+}
