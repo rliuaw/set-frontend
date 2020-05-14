@@ -209,6 +209,7 @@ function setGame() {
     } else {
       console.error('invalid board cell', status, text);
     }
+    nightModeAddElement(tableCell);
   }
   
   function refreshScores(text) {

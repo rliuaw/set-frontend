@@ -10,8 +10,8 @@ table.set-board tr td {
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  color: rgba(0, 0, 0, 0);
   padding: 0 !important;
+  color: rgba(0, 0, 0, 0);
   border: 1px solid black;
   border-radius: 4px;
 }
@@ -20,10 +20,6 @@ table.set-board td:not(:empty) {
 }
 table.set-board td:empty.card-visible {
   border: 1px solid rgba(0, 0, 0, .2);
-}
-table.set-board td.card-visible {
-  color: rgba(0, 0, 0, 1);
-  background: white;
 }
 table.set-board td.card-visible.card-control {
   background: rgba(255, 255, 0, .25);
@@ -37,4 +33,28 @@ table.set-board td.card-blocked {
 table.set-scores th,
 table.set-scores td {
   padding: 1px 1em;
+}
+
+
+/*
+NIGHT MODE
+*/
+
+table.set-board td.card-visible {
+  color: rgba(0, 0, 0, 1);
+  background: rgba(230, 230, 230, 1);
+}
+
+table.set-board td.card-visible.night-mode {
+  color: rgba(200, 200, 200, 1);
+  background: rgba(40, 40, 40, 1);
+}
+
+table.set-board td.card-visible.card-control.night-mode {
+  background: rgba(0, 0, 255, .25);
+  border-color: rgb(128, 200, 256);
+}
+
+table.set-board td.card-visible.transition-mode {
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }

@@ -5,7 +5,6 @@ var toggleElements = [
   document.querySelector("body"),
   document.querySelector(".panel")
 ]
-
 function toggleNight() {
   toggleElements.forEach(element => {if(element) element.classList.toggle("night-mode")});
 }
@@ -15,7 +14,7 @@ if (localStorage.getItem("mode") === "night") {
   toggleNight();
 }
 window.onload = (event) => {
-  toggleElements.forEach(element => {if(element) element.classList.toggle("transition-mode")});
+  toggleElements.forEach(element => {if(element) element.classList.add("transition-mode")});
 };
 
 
@@ -28,3 +27,15 @@ document.querySelector(".nightModeButton").onclick = function () {
     localStorage.setItem("mode", "night");
   }
 };
+
+function nightModeAddElement(element) {
+  if(element) {
+    toggleElements.push(element);
+    if (localStorage.getItem("mode") === "night") {
+      element.classList.add("night-mode")
+    } else {
+      element.classList.remove("night-mode")
+    }
+    element.classList.add("transition-mode")
+  }
+}
