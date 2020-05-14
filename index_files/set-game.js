@@ -25,6 +25,9 @@ function setGame() {
   var declareButton = document.getElementById('set-declare');
   declareButton.addEventListener('click', function() { declare(); });
 
+  var addCardsButton = document.getElementById('set-add-cards');
+  addCardsButton.addEventListener('click', function() { addCards(); });
+
   var boardTable = document.getElementById('set-board');
   boardTable.addEventListener('click', flip);
   
@@ -91,6 +94,21 @@ function setGame() {
     console.log('sending scores request');
     req.send();
   }
+  
+  function addCards() {
+    var url = setGame.server + '/add/' + playerID;
+    var req = new XMLHttpRequest();
+    req.addEventListener('load', function onFlipLoad() {
+      console.log('add cards response', this.responseText.replace(/\r?\n/g, '\u21B5'));
+      refreshScores(this.responseText);
+    });
+    req.addEventListener('error', function onFlipError() {
+      console.error('add cards error', url);
+    });
+    req.open('GET', 'http://' + url);
+    console.log('sending add cards request');
+    req.send();
+  }
 
   function declare() {
     var url = setGame.server + '/declare/' + playerID;
@@ -111,7 +129,7 @@ function setGame() {
     console.log('sending declare request');
     req.send();
   }
-  
+
   function flip(event) {
     if (event.target.tagName !== 'TD') { return; }
     if (flippingCell) {
@@ -153,6 +171,7 @@ function setGame() {
     var rows = parseInt(dims.shift());
     var cols = parseInt(dims.shift());
     var declare = board.shift().split(' ');
+    addCardsButton.classList.remove('hidden');
     refreshDeclare(declare[0], declare[1]);
     var cards = board.map(function(line) { return line.split(' '); });
     
