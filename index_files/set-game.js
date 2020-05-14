@@ -22,6 +22,9 @@ function setGame() {
       playButton.addEventListener('click', function() { play(serverBox.value); });
     }
   }
+  var declareButton = document.getElementById('set-declare');
+  declareButton.addEventListener('click', function() { declare(); });
+
   var boardTable = document.getElementById('set-board');
   boardTable.addEventListener('click', flip);
   
@@ -88,6 +91,26 @@ function setGame() {
     console.log('sending scores request');
     req.send();
   }
+
+  function declare() {
+    var url = setGame.server + '/declare/' + playerID;
+    var req = new XMLHttpRequest();
+    req.addEventListener('load', function onFlipLoad() {
+      console.log('declare response', this.responseText.replace(/\r?\n/g, '\u21B5'));
+      refreshBoard(this.responseText);
+      // setTimeout(scores, 1);
+    });
+    // req.addEventListener('loadend', function onFlipDone() {
+    //   flippingCell.classList.remove('card-blocked');
+    //   flippingCell = null;
+    // });
+    req.addEventListener('error', function onFlipError() {
+      console.error('declare error', url);
+    });
+    req.open('GET', 'http://' + url);
+    console.log('sending declare request');
+    req.send();
+  }
   
   function flip(event) {
     if (event.target.tagName !== 'TD') { return; }
@@ -98,9 +121,10 @@ function setGame() {
     
     flippingCell = event.target;
     flippingCell.classList.add('card-blocked');
-    var col = indexOfElement(flippingCell) + 1;
-    var row = indexOfElement(flippingCell.parentElement) + 1;
-    var url = setGame.server + '/flip/' + playerID + '/' + row + ',' + col;
+    // 0-indexed, so use indexOf directly
+    var col = indexOfElement(flippingCell);
+    var row = indexOfElement(flippingCell.parentElement);
+    var url = setGame.server + '/pick/' + playerID + '/' + row + ',' + col;
     var req = new XMLHttpRequest();
     req.addEventListener('load', function onFlipLoad() {
       console.log('flip response', this.responseText.replace(/\r?\n/g, '\u21B5'));
@@ -128,6 +152,8 @@ function setGame() {
     var dims = board.shift().split('x');
     var rows = parseInt(dims.shift());
     var cols = parseInt(dims.shift());
+    var declare = board.shift().split(' ');
+    refreshDeclare(declare[0], declare[1]);
     var cards = board.map(function(line) { return line.split(' '); });
     
     for (var row = 0; row < rows; row++) {
@@ -142,7 +168,30 @@ function setGame() {
     }
   }
   
+  function refreshDeclare(status, millis) {
+    // text = text.replace(/\//g, '\n'); // formats card
+    declareButton.classList.remove('hidden');
+    declareButton.classList.remove('disabled');
+    declareButton.classList.remove('btn-info');
+    declareButton.classList.remove('btn-success');
+    // declareButton.innerText = '';
+    if (status === 'none') {
+      declareButton.classList.add('btn-info');
+    } else if (status === 'up') {
+      declareButton.classList.add('btn-info');
+      declareButton.classList.add('disabled');
+      // declareButton.innerText = text;
+    } else if (status === 'my') {
+      declareButton.classList.add('btn-success');
+      // declareButton.innerText = text;
+    } else {
+      console.error('invalid declare button', status, millis);
+    }
+    console.log(declareButton.classList)
+  }
+
   function refreshCell(tableCell, status, text) {
+    text = text.replace(/\//g, '\n'); // formats card
     tableCell.classList.remove('card-visible');
     tableCell.classList.remove('card-control');
     tableCell.innerText = '';

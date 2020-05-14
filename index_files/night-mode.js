@@ -14,7 +14,9 @@ function toggleNight() {
 if (localStorage.getItem("mode") === "night") {
   toggleNight();
 }
-toggleElements.forEach(element => {if(element) element.classList.toggle("transition-mode")});
+window.onload = (event) => {
+  toggleElements.forEach(element => {if(element) element.classList.toggle("transition-mode")});
+};
 
 
 // Night mode button listener
