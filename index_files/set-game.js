@@ -243,6 +243,7 @@ function setGame() {
       var cellTag = score[0] === playerID ? 'th' : 'td';
       row.appendChild(document.createElement(cellTag)).innerText = score[0];
       row.appendChild(document.createElement(cellTag)).innerText = score[1];
+      row.appendChild(document.createElement(cellTag)).innerText = score[2];
       scoreBox.appendChild(row);
     });
   }
