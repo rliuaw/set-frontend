@@ -1,6 +1,6 @@
 /* Copyright (c) 2017-2020 MIT 6.031 course staff, all rights reserved. */
 
-function memoryGame() {
+function setGame() {
   
   var words = [
     [ 'red', 'orange', 'yellow', 'green', 'blue', 'purple', ],
@@ -12,8 +12,8 @@ function memoryGame() {
   }).join('_');
   console.log('generated player ID', playerID);
   
-  var serverBox = document.getElementById('memory-server');
-  var playButton = document.getElementById('memory-play');
+  var serverBox = document.getElementById('set-server');
+  var playButton = document.getElementById('set-play');
   if (serverBox) {
     serverBox.addEventListener('keypress', function(e) {
       if (e.keyCode == 13) { serverBox.blur(); play(serverBox.value); }
@@ -22,18 +22,18 @@ function memoryGame() {
       playButton.addEventListener('click', function() { play(serverBox.value); });
     }
   }
-  var boardTable = document.getElementById('memory-board');
+  var boardTable = document.getElementById('set-board');
   boardTable.addEventListener('click', flip);
   
   var flippingCell = null;
   
-  var scoreBox = document.getElementById('memory-scores');
+  var scoreBox = document.getElementById('set-scores');
   
-  var play = memoryGame.play = function play(server) {
+  var play = setGame.play = function play(server) {
     console.log('playing on server', server);
     if (serverBox) { serverBox.disabled = true; }
     if (playButton) { playButton.disabled = true; }
-    memoryGame.server = server;
+    setGame.server = server;
     watchAndUpdate();
   };
   
@@ -49,9 +49,9 @@ function memoryGame() {
       setTimeout(update, 1);
     });
     req.addEventListener('error', function onWatchError() {
-      console.error('watch error', memoryGame.server);
+      console.error('watch error', setGame.server);
     });
-    req.open('GET', 'http://' + memoryGame.server + '/watch/' + playerID);
+    req.open('GET', 'http://' + setGame.server + '/watch/' + playerID);
     console.log('sending watch request');
     req.send();
   }
@@ -68,9 +68,9 @@ function memoryGame() {
       refreshBoard(this.responseText);
     });
     req.addEventListener('error', function onLookError() {
-      console.error('look error', memoryGame.server);
+      console.error('look error', setGame.server);
     });
-    req.open('GET', 'http://' + memoryGame.server + '/look/' + playerID);
+    req.open('GET', 'http://' + setGame.server + '/look/' + playerID);
     console.log('sending look request');
     req.send();
   }
@@ -82,9 +82,9 @@ function memoryGame() {
       refreshScores(this.responseText);
     });
     req.addEventListener('error', function onScoresError() {
-      console.error('scores error', memoryGame.server);
+      console.error('scores error', setGame.server);
     });
-    req.open('GET', 'http://' + memoryGame.server + '/scores');
+    req.open('GET', 'http://' + setGame.server + '/scores');
     console.log('sending scores request');
     req.send();
   }
@@ -100,7 +100,7 @@ function memoryGame() {
     flippingCell.classList.add('card-blocked');
     var col = indexOfElement(flippingCell) + 1;
     var row = indexOfElement(flippingCell.parentElement) + 1;
-    var url = memoryGame.server + '/flip/' + playerID + '/' + row + ',' + col;
+    var url = setGame.server + '/flip/' + playerID + '/' + row + ',' + col;
     var req = new XMLHttpRequest();
     req.addEventListener('load', function onFlipLoad() {
       console.log('flip response', this.responseText.replace(/\r?\n/g, '\u21B5'));
