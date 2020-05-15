@@ -185,7 +185,12 @@ function setGame() {
         var card = cards.shift();
         refreshCell(tableCell, card[0], card[1]);
       }
+      // delete old columns
+      while (tableRow.childElementCount > cols) {
+        tableRow.deleteCell(tableRow.childElementCount - 1);
+      }
     }
+    // delete old rows?? but assume constant 3 rows, so nah
   }
   
   function refreshDeclare(status, millis) {
