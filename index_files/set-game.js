@@ -23,6 +23,7 @@ function setGame() {
     }
   }
   var declareButton = document.getElementById('set-declare');
+  var declareTicker = 0;
   declareButton.addEventListener('click', function() { declare(); });
 
   var addCardsButton = document.getElementById('set-add-cards');
@@ -193,20 +194,43 @@ function setGame() {
     declareButton.classList.remove('disabled');
     declareButton.classList.remove('btn-info');
     declareButton.classList.remove('btn-success');
-    // declareButton.innerText = '';
+    declareButton.innerText = 'declare';
     if (status === 'none') {
       declareButton.classList.add('btn-info');
     } else if (status === 'up') {
-      declareButton.classList.add('btn-info');
-      declareButton.classList.add('disabled');
-      // declareButton.innerText = text;
+      declareButton.classList.add('btn-warning');
+      // declareButton.classList.add('disabled');
     } else if (status === 'my') {
       declareButton.classList.add('btn-success');
-      // declareButton.innerText = text;
     } else {
       console.error('invalid declare button', status, millis);
+      return;
     }
-    console.log(declareButton.classList)
+    refreshDeclareTicker(millis)
+  }
+
+  // time is a unix timestamp
+  // returns a nice string
+  function formatTime(time) {
+    var ms = time % 1000;
+    time = (time - ms) / 1000;
+    var secs = time
+    return `declare - ${secs}.${ms}`
+  }
+
+  function refreshDeclareTicker(millis) {
+    clearInterval(declareTicker);
+    if (millis) {
+      declareTicker = setInterval(function() {
+        var timeRemaining = millis - (new Date()).getTime();
+        if (timeRemaining <= 0) {
+          clearInterval(declareTicker);
+          declareButton.innerText = 'declare';
+        } else {
+          declareButton.innerText = formatTime(timeRemaining);
+        }
+      });
+    }
   }
 
   function refreshCell(tableCell, status, text) {
