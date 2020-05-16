@@ -18,30 +18,28 @@ function refreshNightMode() {
 
 // nightModeInitialize
 var nightModeInitialize = function() {
-  var footer = document.getElementById('footer-night-mode');
-  var nightModeButton = document.createElement('button');
-  nightModeButton.classList.add('nightModeButton');
-  nightModeButton.innerText = '🌙 Night Mode';
-  nightModeAddElement(nightModeButton);
-  footer.appendChild(nightModeButton);
-
   // Recover night mode state, then enable transitions only after loaded.
   refreshNightMode();
   window.onload = (event) => {
+    var footer = document.getElementById('footer-night-mode');
+    var nightModeButton = document.createElement('button');
+    nightModeButton.classList.add('nightModeButton');
+    nightModeButton.innerText = '🌙 Night Mode';
+    // Night mode button listener
+    nightModeButton.onclick = function () {
+      if (localStorage.getItem('mode') === 'night') {
+        localStorage.setItem('mode', 'day');
+      } else {
+        localStorage.setItem('mode', 'night');
+      }
+      refreshNightMode();
+    };
+    nightModeAddElement(nightModeButton);
+    footer.appendChild(nightModeButton);
+
     toggleElements.forEach(element => {if(element) element.classList.add('transition-mode')});
   };
 }();
-
-
-// Night mode button listener
-document.querySelector('.nightModeButton').onclick = function () {
-  if (localStorage.getItem('mode') === 'night') {
-    localStorage.setItem('mode', 'day');
-  } else {
-    localStorage.setItem('mode', 'night');
-  }
-  refreshNightMode();
-};
 
 function nightModeAddElement(element) {
   if(element) {
