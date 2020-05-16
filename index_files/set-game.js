@@ -1,49 +1,105 @@
 /* Copyright (c) 2017-2020 MIT 6.031 course staff, all rights reserved. */
-
 function setGame() {
-  
+
   var words = [
-    [ 'red', 'orange', 'yellow', 'green', 'blue', 'purple', ],
-    [ 'apple', 'bean', 'carrot', 'donut', 'eclair', 'flan', ],
-    [ Math.floor(Math.random() * Math.pow(16, 3)).toString(16) ],
+    ['red', 'orange', 'yellow', 'green', 'blue', 'purple', ],
+    ['apple', 'bean', 'carrot', 'donut', 'eclair', 'flan', ],
+    [Math.floor(Math.random() * Math.pow(16, 3)).toString(16)],
   ];
   var playerID = words.map(function(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }).join('_');
   console.log('generated player ID', playerID);
-  
+
+  var graphicsConfig = {
+    shape: {
+      diamond: 'M1 74L35 2l36 73-36 74z',
+      oval: 'M36 149c-19 0-34-15-34-33V35C2 16 17 1 36 1s34 15 34 34v81c0 18-15 33-34 33z',
+      squiggle: 'M9.64,77.38C15.73,63.23,19.46,50.9,12,33.71,6.57,21.25-3.54,13.79,1.84,6.76c7.06-9.19,31.8-10.89,50.79,6.9,18.12,17,13.77,49.45,6.14,64.12-7,13.55-4.38,29.55,8.37,48.23C79.21,143.69,46,156.12,20.42,141.67-1.76,129.1-2.46,105.54,9.64,77.38Z'
+    },
+    color: {
+      classic: {
+        red: 'rgb(239, 62, 66)',
+        green: 'rgb(0, 178, 89)',
+        purple: 'rgb(73, 47, 146)'
+      },
+      alternate: {
+        red: '#DF6747',
+        green: '#FEBC38',
+        purple: '#37AFA9'
+      }
+    },
+    props: Object.keys({
+      color: ['RED', 'GREEN', 'PURPLE'],
+      number: ['ONE', 'TWO', 'THREE'],
+      pattern: ['OPEN', 'SOLID', 'STRIPED'],
+      shape: ['DIAMOND', 'OVAL', 'SQUIGGLE']
+    }),
+    svgNamespace: 'http://www.w3.org/2000/svg',
+    viewBox: '-7 -7 82 164',
+    fillFunctions: {
+      solid: function(e, t) {
+        return t[e]
+      },
+      striped: function(e) {
+        return 'url(#'.concat(e, '-stripes)')
+      },
+      open: function() {
+        return 'none'
+      }
+    },
+    hexesMap: {
+      ONE: 1,
+      TWO: 2,
+      THREE: 3
+    }
+  };
+
   var serverBox = document.getElementById('set-server');
   var playButton = document.getElementById('set-play');
   if (serverBox) {
     serverBox.addEventListener('keypress', function(e) {
-      if (e.keyCode == 13) { serverBox.blur(); play(serverBox.value); }
+      if (e.keyCode == 13) {
+        serverBox.blur();
+        play(serverBox.value);
+      }
     });
     if (playButton) {
-      playButton.addEventListener('click', function() { play(serverBox.value); });
+      playButton.addEventListener('click', function() {
+        play(serverBox.value);
+      });
     }
   }
   var declareButton = document.getElementById('set-declare');
   var declareTicker = 0;
-  declareButton.addEventListener('click', function() { declare(); });
+  declareButton.addEventListener('click', function() {
+    declare();
+  });
 
   var addCardsButton = document.getElementById('set-add-cards');
-  addCardsButton.addEventListener('click', function() { addCards(); });
+  addCardsButton.addEventListener('click', function() {
+    addCards();
+  });
 
   var boardTable = document.getElementById('set-board');
   boardTable.addEventListener('click', flip);
-  
+
   var flippingCell = null;
-  
+
   var scoreBox = document.getElementById('set-scores');
-  
+
   var play = setGame.play = function play(server) {
     console.log('playing on server', server);
-    if (serverBox) { serverBox.disabled = true; }
-    if (playButton) { playButton.disabled = true; }
+    if (serverBox) {
+      serverBox.disabled = true;
+    }
+    if (playButton) {
+      playButton.disabled = true;
+    }
     setGame.server = server;
     watchAndUpdate();
   };
-  
+
   function watchAndUpdate() {
     var req = new XMLHttpRequest();
     req.addEventListener('load', function onWatchLoad() {
@@ -62,12 +118,12 @@ function setGame() {
     console.log('sending watch request');
     req.send();
   }
-  
+
   function update() {
     look();
     scores();
   }
-  
+
   function look() {
     var req = new XMLHttpRequest();
     req.addEventListener('load', function onLookLoad() {
@@ -81,7 +137,7 @@ function setGame() {
     console.log('sending look request');
     req.send();
   }
-  
+
   function scores() {
     var req = new XMLHttpRequest();
     req.addEventListener('load', function onScoresLoad() {
@@ -95,7 +151,7 @@ function setGame() {
     console.log('sending scores request');
     req.send();
   }
-  
+
   function addCards() {
     var url = setGame.server + '/add/' + playerID;
     var req = new XMLHttpRequest();
@@ -132,12 +188,14 @@ function setGame() {
   }
 
   function flip(event) {
-    if (event.target.tagName !== 'TD') { return; }
+    if (event.target.tagName !== 'TD') {
+      return;
+    }
     if (flippingCell) {
       console.log('already waiting to flip a card');
       return;
     }
-    
+
     flippingCell = event.target;
     flippingCell.classList.add('card-blocked');
     // 0-indexed, so use indexOf directly
@@ -161,11 +219,11 @@ function setGame() {
     console.log('sending flip request');
     req.send();
   }
-  
+
   function indexOfElement(elt) {
     return Array.prototype.indexOf.call(elt.parentElement.children, elt);
   }
-  
+
   function refreshBoard(text) {
     var board = text.split(/\r?\n/);
     var dims = board.shift().split('x');
@@ -174,14 +232,16 @@ function setGame() {
     var declare = board.shift().split(' ');
     addCardsButton.classList.remove('hidden');
     refreshDeclare(declare[0], declare[1]);
-    var cards = board.map(function(line) { return line.split(' '); });
-    
+    var cards = board.map(function(line) {
+      return line.split(' ');
+    });
+
     for (var row = 0; row < rows; row++) {
       var tableRow = boardTable.children[row] ||
-                     boardTable.appendChild(document.createElement('tr'));
+        boardTable.appendChild(document.createElement('tr'));
       for (var col = 0; col < cols; col++) {
         var tableCell = tableRow.children[col] ||
-                        tableRow.appendChild(document.createElement('td'));
+          tableRow.appendChild(document.createElement('td'));
         var card = cards.shift();
         refreshCell(tableCell, card[0], card[1]);
       }
@@ -192,7 +252,7 @@ function setGame() {
     }
     // delete old rows?? but assume constant 3 rows, so nah
   }
-  
+
   function refreshDeclare(status, millis) {
     // text = text.replace(/\//g, '\n'); // formats card
     declareButton.classList.remove('hidden');
@@ -240,7 +300,6 @@ function setGame() {
   }
 
   function refreshCell(tableCell, status, text) {
-    text = text.replace(/\//g, '\n'); // formats card
     tableCell.classList.remove('card-visible');
     tableCell.classList.remove('card-control');
     tableCell.innerText = '';
@@ -250,17 +309,44 @@ function setGame() {
       tableCell.innerText = '?';
     } else if (status === 'up') {
       tableCell.classList.add('card-visible');
-      tableCell.innerText = text;
+      tableCell.appendChild(createCardContent(text));
     } else if (status === 'my') {
       tableCell.classList.add('card-visible');
       tableCell.classList.add('card-control');
-      tableCell.innerText = text;
+      tableCell.appendChild(createCardContent(text));
     } else {
       console.error('invalid board cell', status, text);
     }
     nightModeAddElement(tableCell);
   }
-  
+
+  function createCardContent(text) {
+    var cardContent = document.createElement('div');
+    var props = text.split('/');
+    var hexes = props.shift();
+    var color = props.shift();
+    var pattern = props.shift();
+    var shape = props.shift();
+    var colorLowerCase = color.toLocaleLowerCase();
+    var patternLowerCase = pattern.toLocaleLowerCase();
+    var shapeLowerCase = shape.toLocaleLowerCase();
+    for (var i = 0; i < graphicsConfig.hexesMap[hexes]; i++) {
+      var hexContent = document.createElementNS(graphicsConfig.svgNamespace, 'use');
+      hexContent.setAttribute('xlinkHref', '#'.concat(shapeLowerCase, '-shape'));
+      hexContent.setAttribute('href', '#'.concat(shapeLowerCase, '-shape'));
+      hexContent.setAttribute('fill', graphicsConfig.fillFunctions[patternLowerCase](colorLowerCase, graphicsConfig.color.classic));
+      hexContent.setAttribute('stroke', graphicsConfig.color.classic[colorLowerCase]);
+      hexContent.setAttribute('stroke-width', 7);
+      var hex = document.createElementNS(graphicsConfig.svgNamespace, 'svg');
+      hex.setAttribute('viewBox', graphicsConfig.viewBox);
+      hex.setAttribute('class', shapeLowerCase);
+      hex.appendChild(hexContent);
+      cardContent.appendChild(hex);
+    }
+    cardContent.style['pointer-events'] = 'none';
+    return cardContent;
+  }
+
   function refreshScores(text) {
     scoreBox.innerText = '';
     var scores = text.split(/\r?\n/).filter(function(line) {
