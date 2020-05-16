@@ -198,6 +198,7 @@ function setGame() {
     declareButton.classList.remove('hidden');
     declareButton.classList.remove('disabled');
     declareButton.classList.remove('btn-info');
+    declareButton.classList.remove('btn-warning');
     declareButton.classList.remove('btn-success');
     declareButton.innerText = 'declare';
     if (status === 'none') {
