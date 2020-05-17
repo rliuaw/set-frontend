@@ -110,7 +110,7 @@ function setGame() {
       playButton.disabled = true;
     }
     setGame.server = server;
-    if (setGame === 'localhost:8080') {
+    if (setGame.server === 'localhost:8080') {
       setGame.protocol = 'http://';
     } else {
       setGame.protocol = 'https://';
