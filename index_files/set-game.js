@@ -59,6 +59,7 @@ function setGame() {
   var serverBox = document.getElementById('set-server');
   var playButton = document.getElementById('set-play');
   if (serverBox) {
+    serverBox.value = 'mdlu-rtliu-set-game.herokuapp.com'; // initialize to this
     serverBox.addEventListener('keypress', function(e) {
       if (e.keyCode == 13) {
         serverBox.blur();
@@ -109,6 +110,11 @@ function setGame() {
       playButton.disabled = true;
     }
     setGame.server = server;
+    if (setGame === 'localhost:8080') {
+      setGame.protocol = 'http://';
+    } else {
+      setGame.protocol = 'https://';
+    }
     watchAndUpdate();
   };
 
@@ -126,7 +132,7 @@ function setGame() {
     req.addEventListener('error', function onWatchError() {
       console.error('watch error', setGame.server);
     });
-    req.open('GET', 'http://' + setGame.server + '/watch/' + playerID);
+    req.open('GET', setGame.protocol + setGame.server + '/watch/' + playerID);
     console.log('sending watch request');
     req.send();
   }
@@ -145,7 +151,7 @@ function setGame() {
     req.addEventListener('error', function onLookError() {
       console.error('look error', setGame.server);
     });
-    req.open('GET', 'http://' + setGame.server + '/look/' + playerID);
+    req.open('GET', setGame.protocol + setGame.server + '/look/' + playerID);
     console.log('sending look request');
     req.send();
   }
@@ -159,7 +165,7 @@ function setGame() {
     req.addEventListener('error', function onScoresError() {
       console.error('scores error', setGame.server);
     });
-    req.open('GET', 'http://' + setGame.server + '/scores');
+    req.open('GET', setGame.protocol + setGame.server + '/scores');
     console.log('sending scores request');
     req.send();
   }
@@ -174,7 +180,7 @@ function setGame() {
     req.addEventListener('error', function onFlipError() {
       console.error('add cards error', url);
     });
-    req.open('GET', 'http://' + url);
+    req.open('GET', setGame.protocol + url);
     console.log('sending add cards request');
     req.send();
   }
@@ -194,7 +200,7 @@ function setGame() {
     req.addEventListener('error', function onFlipError() {
       console.error('declare error', url);
     });
-    req.open('GET', 'http://' + url);
+    req.open('GET', setGame.protocol + url);
     console.log('sending declare request');
     req.send();
   }
@@ -227,7 +233,7 @@ function setGame() {
     req.addEventListener('error', function onFlipError() {
       console.error('flip error', url);
     });
-    req.open('GET', 'http://' + url);
+    req.open('GET', setGame.protocol + url);
     console.log('sending flip request');
     req.send();
   }
