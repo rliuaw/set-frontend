@@ -14,8 +14,29 @@
     float: right;
     font-style: italic;
   }
+  #set-server-expand {
+    padding: 6px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
   #set-server {
-    max-width: 14em;
+    max-width: 0em;
+    border: 0px;
+    padding: 0px;
+    border-radius: 0px;
+  
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    transition: all .5s;
+  }
+  #set-server.expand-clicked {
+    max-width: 12em;
+    border: 1px;
+    padding: 6px;
+  }
+  #set-play {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
   }
   #set-scores {
     float: right;
@@ -35,8 +56,11 @@
 <body class="vsc-initialized">
   <h1>Set</h1>
   <div class="form-inline">
-    <input id="set-server" class="form-control" type="text" value="localhost:8080" autofocus="">
-    <button id="set-play" class="btn btn-info">play!</button>
+    <button id="set-server-expand" type="button" class="btn btn-info rounded-left">
+      <span class="caret-right">&gt;</span>
+    </button><!-- do not delete this comment which functions for spacing
+ --><input id="set-server" class="form-control" type="text" value="mdlu-rtliu-set-game.herokuapp.com"><!-- do not delete this comment which functions for spacing
+ --><button id="set-play" class="btn btn-info" autofocus="">play!</button>
   </div>
   <table id="set-scores" class="set-scores"></table>
   <div id="set-game" class="set-game">

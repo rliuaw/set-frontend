@@ -55,6 +55,7 @@ function setGame() {
     }
   };
 
+  var serverExpandButton = document.getElementById('set-server-expand');
   var serverBox = document.getElementById('set-server');
   var playButton = document.getElementById('set-play');
   if (serverBox) {
@@ -67,6 +68,17 @@ function setGame() {
     if (playButton) {
       playButton.addEventListener('click', function() {
         play(serverBox.value);
+      });
+    }
+    if (serverExpandButton) {
+      serverExpandButton.addEventListener('click', function() {
+        if (serverBox.classList.contains('expand-clicked')) { // Gives toggle behavior
+          serverBox.classList.remove('expand-clicked');
+        } else {
+          serverBox.value = 'localhost:8080';
+          serverBox.focus();
+          serverBox.classList.add('expand-clicked');
+        }
       });
     }
   }
