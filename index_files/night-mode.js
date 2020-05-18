@@ -20,25 +20,26 @@ function refreshNightMode() {
 var nightModeInitialize = function() {
   // Recover night mode state, then enable transitions only after loaded.
   refreshNightMode();
-  window.onload = (event) => {
+  window.addEventListener('load', (event) => {
     var footer = document.getElementById('footer-night-mode');
-    var nightModeButton = document.createElement('button');
+    var nightModeButton = document.createElement('button'); 
     nightModeButton.classList.add('nightModeButton');
+    nightModeButton.classList.add('navbar-right');
     nightModeButton.innerText = '🌙 Night Mode';
     // Night mode button listener
-    nightModeButton.onclick = function () {
+    nightModeButton.addEventListener('click', function () {
       if (localStorage.getItem('mode') === 'night') {
         localStorage.setItem('mode', 'day');
       } else {
         localStorage.setItem('mode', 'night');
       }
       refreshNightMode();
-    };
+    });;
     nightModeAddElement(nightModeButton);
     footer.appendChild(nightModeButton);
 
     toggleElements.forEach(element => {if(element) element.classList.add('transition-mode')});
-  };
+  });
 }();
 
 function nightModeAddElement(element) {

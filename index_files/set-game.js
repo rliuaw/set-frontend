@@ -59,7 +59,6 @@ function setGame() {
   var serverBox = document.getElementById('set-server');
   var playButton = document.getElementById('set-play');
   if (serverBox) {
-    serverBox.value = 'mdlu-rtliu-set-game.herokuapp.com'; // initialize to this
     serverBox.addEventListener('keypress', function(e) {
       if (e.keyCode == 13) {
         serverBox.blur();
@@ -73,12 +72,14 @@ function setGame() {
     }
     if (serverExpandButton) {
       serverExpandButton.addEventListener('click', function() {
-        if (serverBox.classList.contains('expand-clicked')) { // Gives toggle behavior
-          serverBox.classList.remove('expand-clicked');
-        } else {
-          serverBox.value = 'localhost:8080';
-          serverBox.focus();
-          serverBox.classList.add('expand-clicked');
+        if (localStorage.getItem('advancedSettings') === 'enabled') {
+          if (serverBox.classList.contains('expand-clicked')) { // Gives toggle behavior
+            serverBox.classList.remove('expand-clicked');
+          } else {
+            serverBox.value = 'localhost:8080';
+            serverBox.focus();
+            serverBox.classList.add('expand-clicked');
+          }
         }
       });
     }
@@ -100,6 +101,69 @@ function setGame() {
   var flippingCell = null;
 
   var scoreBox = document.getElementById('set-scores');
+
+  var settingsMenuInitialize = function() {
+    // Recover settings, then enable transitions only after loaded.
+    // refreshNightMode();
+    window.addEventListener('load', (event) => {
+      var footer = document.getElementById('footer-night-mode');
+      var dropupString = '<span class="btn-group dropup navbar-btn navbar-left">'+
+      '  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+      '     ⚙️ <span class="caret"></span>'+
+      '  </button>'+
+      '  <ul class="dropdown-menu">'+
+      '    <li><div class="input-group"><span class="input-group-addon"><input type="checkbox" id="enableadvanced" name="enableadvanced">'+
+      '      <label for="enableadvanced">Enable advanced settings</label></span></div></li>'+
+      // '    <li><a href="#">Another action</a></li>'+
+      // '    <li><a href="#">Something else here</a></li>'+
+      // '    <li role="separator" class="divider"></li>'+
+      // '    <li><a href="#">Separated link</a></li>'+
+      '  </ul>'+
+      '</span>';
+        
+      footer.insertAdjacentHTML('afterbegin', dropupString);
+
+      var enableAdvancedInput = document.getElementById('enableadvanced');
+
+      if (localStorage.getItem('advancedSettings') === 'enabled') {
+        enableAdvancedInput.checked = true;
+        if (serverBox) {
+          serverBox.value = 'localhost:8080';
+        }
+      } else { // Defaults to unchecked, therefore OK
+        if (serverBox) {
+          serverBox.value = 'mdlu-rtliu-set-game.herokuapp.com';
+        }
+      }
+      enableAdvancedInput.addEventListener('change', function() {
+        if(enableAdvancedInput.checked) {
+          localStorage.setItem('advancedSettings', 'enabled');
+          if (serverBox) {
+            serverBox.value = 'localhost:8080';
+          }
+        } else {
+          localStorage.setItem('advancedSettings', 'disabled');
+          if (serverBox) {
+            serverBox.value = 'mdlu-rtliu-set-game.herokuapp.com';
+          }
+        }
+      });
+      // nightModeButton.classList.add('nightModeButton');
+      // nightModeButton.innerText = '🌙 Night Mode';
+      // // Night mode button listener
+      // nightModeButton.onclick = function () {
+      //   if (localStorage.getItem('mode') === 'night') {
+      //     localStorage.setItem('mode', 'day');
+      //   } else {
+      //     localStorage.setItem('mode', 'night');
+      //   }
+      //   refreshNightMode();
+      // };
+      // nightModeAddElement(nightModeButton);
+
+      // toggleElements.forEach(element => {if(element) element.classList.add('transition-mode')});
+    });;
+  }();
 
   var play = setGame.play = function play(server) {
     console.log('playing on server', server);
