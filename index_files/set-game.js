@@ -107,7 +107,7 @@ function setGame() {
     // refreshNightMode();
     window.addEventListener('load', (event) => {
       var footer = document.getElementById('footer-night-mode');
-      var dropupString = '<span class="btn-group dropup">'+
+      var dropupString = '<span class="btn-group dropup pull-left">'+
       '  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
       '     ⚙️ <span class="caret"></span>'+
       '  </button>'+
@@ -368,7 +368,7 @@ function setGame() {
     var ms = time % 1000;
     time = (time - ms) / 1000;
     var secs = time
-    return `declare - ${secs}.${ms}`
+    return `declare - ${ secs }.${ ms }`
   }
 
   function refreshDeclareTicker(millis) {
@@ -417,11 +417,7 @@ function setGame() {
     var colorLowerCase = color.toLocaleLowerCase();
     var patternLowerCase = pattern.toLocaleLowerCase();
     var shapeLowerCase = shape.toLocaleLowerCase();
-    if (localStorage.getItem('alternateColor') === 'enabled') {
-      var colorConfig = graphicsConfig.color.alternate
-    } else {
-      var colorConfig = graphicsConfig.color.classic
-    }
+    var colorConfig = readColorConfig(true);
     for (var i = 0; i < graphicsConfig.hexesMap[hexes]; i++) {
       var hexContent = document.createElementNS(graphicsConfig.svgNamespace, 'use');
       hexContent.setAttribute('xlinkHref', '#'.concat(shapeLowerCase, '-shape'));
@@ -441,11 +437,7 @@ function setGame() {
   }
 
   function refreshCardColor() {
-    if (localStorage.getItem('alternateColor') === 'enabled') {
-      var colorConfig = graphicsConfig.color.alternate
-    } else {
-      var colorConfig = graphicsConfig.color.classic
-    }
+    var colorConfig = readColorConfig(true);
     for (var row = 0; row < boardTable.childElementCount; row++) {
       var tableRow = boardTable.children[row];
       for (var col = 0; col < tableRow.childElementCount; col++) {
@@ -458,11 +450,26 @@ function setGame() {
         var patternLowerCase = pattern.toLocaleLowerCase();
         var cardHexes = tableCellDiv.querySelectorAll('svg > use');
         for (var i = 0; i < cardHexes.length; i++) {
+          console.log(graphicsConfig.fillFunctions[patternLowerCase](colorLowerCase, colorConfig));
           cardHexes[i].setAttribute('fill', graphicsConfig.fillFunctions[patternLowerCase](colorLowerCase, colorConfig));
           cardHexes[i].setAttribute('stroke', colorConfig[colorLowerCase]);
         }
       }
     }
+  }
+
+  function readColorConfig(refresh) {
+    if (localStorage.getItem('alternateColor') === 'enabled') {
+      var colorConfig = graphicsConfig.color.alternate;
+    } else {
+      var colorConfig = graphicsConfig.color.classic;
+    }
+    if (refresh) {
+      for (var color in colorConfig) {
+        document.querySelector(`#${ color }-stripes > rect`).setAttribute('fill', colorConfig[color]);
+      }
+    }
+    return colorConfig;
   }
 
   function refreshScores(text) {
