@@ -24,7 +24,6 @@ var nightModeInitialize = function() {
     var footer = document.getElementById('footer-night-mode');
     var nightModeButton = document.createElement('button'); 
     nightModeButton.classList.add('nightModeButton');
-    nightModeButton.classList.add('navbar-right');
     nightModeButton.innerText = '🌙 Night Mode';
     // Night mode button listener
     nightModeButton.addEventListener('click', function () {

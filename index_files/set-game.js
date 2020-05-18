@@ -107,7 +107,7 @@ function setGame() {
     // refreshNightMode();
     window.addEventListener('load', (event) => {
       var footer = document.getElementById('footer-night-mode');
-      var dropupString = '<span class="btn-group dropup navbar-btn navbar-left">'+
+      var dropupString = '<span class="btn-group dropup">'+
       '  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
       '     ⚙️ <span class="caret"></span>'+
       '  </button>'+
