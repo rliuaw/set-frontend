@@ -111,14 +111,16 @@ function setGame() {
       '  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
       '     ⚙️ <span class="caret"></span>'+
       '  </button>'+
-      '  <ul class="dropdown-menu">'+
-      '    <li><div class="input-group"><span class="input-group-addon"><input type="checkbox" id="enableadvanced" name="enableadvanced">'+
-      '      <label for="enableadvanced">Enable advanced settings</label></span></div></li>'+
+      '  <ul class="dropdown-menu panel text-muted" id="set-settings-menu"><div class="panel-body">'+
+      '    <li><label for="enableadvanced">'+
+      '      <input type="checkbox" id="enableadvanced" name="enableadvanced">Enable advanced settings</label></li>'+
+      '    <li><label for="colorblindmode">'+
+      '      <input type="checkbox" id="colorblindmode" name="colorblindmode">Colorblind mode</label></li>'+
       // '    <li><a href="#">Another action</a></li>'+
       // '    <li><a href="#">Something else here</a></li>'+
       // '    <li role="separator" class="divider"></li>'+
       // '    <li><a href="#">Separated link</a></li>'+
-      '  </ul>'+
+      '  </ul></div>'+
       '</span>';
         
       footer.insertAdjacentHTML('afterbegin', dropupString);
@@ -148,20 +150,23 @@ function setGame() {
           }
         }
       });
-      // nightModeButton.classList.add('nightModeButton');
-      // nightModeButton.innerText = '🌙 Night Mode';
-      // // Night mode button listener
-      // nightModeButton.onclick = function () {
-      //   if (localStorage.getItem('mode') === 'night') {
-      //     localStorage.setItem('mode', 'day');
-      //   } else {
-      //     localStorage.setItem('mode', 'night');
-      //   }
-      //   refreshNightMode();
-      // };
-      // nightModeAddElement(nightModeButton);
 
-      // toggleElements.forEach(element => {if(element) element.classList.add('transition-mode')});
+      var enableAlternateColor = document.getElementById('colorblindmode');
+
+      if (localStorage.getItem('alternateColor') === 'enabled') {
+        enableAlternateColor.checked = true;
+      }
+      enableAlternateColor.addEventListener('change', function() {
+        if(enableAlternateColor.checked) {
+          localStorage.setItem('alternateColor', 'enabled');
+        } else {
+          localStorage.setItem('alternateColor', 'disabled');
+        }
+        refreshCardColor();
+      });
+
+      var settingsMenu = document.getElementById('set-settings-menu');
+      nightModeAddElement(settingsMenu);
     });;
   }();
 
@@ -412,12 +417,17 @@ function setGame() {
     var colorLowerCase = color.toLocaleLowerCase();
     var patternLowerCase = pattern.toLocaleLowerCase();
     var shapeLowerCase = shape.toLocaleLowerCase();
+    if (localStorage.getItem('alternateColor') === 'enabled') {
+      var colorConfig = graphicsConfig.color.alternate
+    } else {
+      var colorConfig = graphicsConfig.color.classic
+    }
     for (var i = 0; i < graphicsConfig.hexesMap[hexes]; i++) {
       var hexContent = document.createElementNS(graphicsConfig.svgNamespace, 'use');
       hexContent.setAttribute('xlinkHref', '#'.concat(shapeLowerCase, '-shape'));
       hexContent.setAttribute('href', '#'.concat(shapeLowerCase, '-shape'));
-      hexContent.setAttribute('fill', graphicsConfig.fillFunctions[patternLowerCase](colorLowerCase, graphicsConfig.color.classic));
-      hexContent.setAttribute('stroke', graphicsConfig.color.classic[colorLowerCase]);
+      hexContent.setAttribute('fill', graphicsConfig.fillFunctions[patternLowerCase](colorLowerCase, colorConfig));
+      hexContent.setAttribute('stroke', colorConfig[colorLowerCase]);
       hexContent.setAttribute('stroke-width', 7);
       var hex = document.createElementNS(graphicsConfig.svgNamespace, 'svg');
       hex.setAttribute('viewBox', graphicsConfig.viewBox);
@@ -426,7 +436,33 @@ function setGame() {
       cardContent.appendChild(hex);
     }
     cardContent.style['pointer-events'] = 'none';
+    cardContent.setAttribute('data-text', text);
     return cardContent;
+  }
+
+  function refreshCardColor() {
+    if (localStorage.getItem('alternateColor') === 'enabled') {
+      var colorConfig = graphicsConfig.color.alternate
+    } else {
+      var colorConfig = graphicsConfig.color.classic
+    }
+    for (var row = 0; row < boardTable.childElementCount; row++) {
+      var tableRow = boardTable.children[row];
+      for (var col = 0; col < tableRow.childElementCount; col++) {
+        var tableCellDiv = tableRow.children[col].querySelector('div');
+        var props = tableCellDiv.getAttribute('data-text').split('/');
+        var hexes = props.shift();
+        var color = props.shift();
+        var pattern = props.shift();
+        var colorLowerCase = color.toLocaleLowerCase();
+        var patternLowerCase = pattern.toLocaleLowerCase();
+        var cardHexes = tableCellDiv.querySelectorAll('svg > use');
+        for (var i = 0; i < cardHexes.length; i++) {
+          cardHexes[i].setAttribute('fill', graphicsConfig.fillFunctions[patternLowerCase](colorLowerCase, colorConfig));
+          cardHexes[i].setAttribute('stroke', colorConfig[colorLowerCase]);
+        }
+      }
+    }
   }
 
   function refreshScores(text) {
