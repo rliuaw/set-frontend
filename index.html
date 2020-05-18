@@ -47,9 +47,6 @@
     margin-top: 38px;
     font-size: 38px;
   }
-  #set-defs {
-    display: none;
-  }
   #set-notes {
     float: left;
     margin: 38px 0;
@@ -70,22 +67,6 @@
     <button id="set-add-cards" class="hidden btn btn-info">add</button>
     <button id="set-declare" class="hidden btn btn-info">declare</button>
     <table id="set-board" class="set-board"></table>
-    <svg id="set-defs">
-       <defs>
-          <pattern id="red-stripes" y="12.25" width="6" height="17" patternUnits="userSpaceOnUse">
-            <rect width="6" height="5.6000000000000005" fill="rgb(239, 62, 66)"></rect>
-          </pattern>
-          <pattern id="green-stripes" y="12.25" width="6" height="17" patternUnits="userSpaceOnUse">
-            <rect width="6" height="5.6000000000000005" fill="rgb(0, 178, 89)"></rect>
-          </pattern>
-          <pattern id="purple-stripes" y="12.25" width="6" height="17" patternUnits="userSpaceOnUse">
-            <rect width="6" height="5.6000000000000005" fill="rgb(73, 47, 146)"></rect>
-          </pattern>
-          <path id="diamond-shape" d="M1 74L35 2l36 73-36 74z"></path>
-          <path id="oval-shape" d="M36 149c-19 0-34-15-34-33V35C2 16 17 1 36 1s34 15 34 34v81c0 18-15 33-34 33z"></path>
-          <path id="squiggle-shape" d="M9.64,77.38C15.73,63.23,19.46,50.9,12,33.71,6.57,21.25-3.54,13.79,1.84,6.76c7.06-9.19,31.8-10.89,50.79,6.9,18.12,17,13.77,49.45,6.14,64.12-7,13.55-4.38,29.55,8.37,48.23C79.21,143.69,46,156.12,20.42,141.67-1.76,129.1-2.46,105.54,9.64,77.38Z"></path>
-       </defs>
-    </svg>
   </div>
   <div id="set-notes" class="panel panel-default text-muted">
     <div class="panel-body">
@@ -115,4 +96,20 @@
   </script>
   <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <svg id="set-defs">
+     <defs>
+        <pattern id="red-stripes" y="12.25" width="6" height="17" patternUnits="userSpaceOnUse">
+          <rect width="6" height="5.6000000000000005" fill="rgb(239, 62, 66)"></rect>
+        </pattern>
+        <pattern id="green-stripes" y="12.25" width="6" height="17" patternUnits="userSpaceOnUse">
+          <rect width="6" height="5.6000000000000005" fill="rgb(0, 178, 89)"></rect>
+        </pattern>
+        <pattern id="purple-stripes" y="12.25" width="6" height="17" patternUnits="userSpaceOnUse">
+          <rect width="6" height="5.6000000000000005" fill="rgb(73, 47, 146)"></rect>
+        </pattern>
+        <path id="diamond-shape" d="M1 74L35 2l36 73-36 74z"></path>
+        <path id="oval-shape" d="M36 149c-19 0-34-15-34-33V35C2 16 17 1 36 1s34 15 34 34v81c0 18-15 33-34 33z"></path>
+        <path id="squiggle-shape" d="M9.64,77.38C15.73,63.23,19.46,50.9,12,33.71,6.57,21.25-3.54,13.79,1.84,6.76c7.06-9.19,31.8-10.89,50.79,6.9,18.12,17,13.77,49.45,6.14,64.12-7,13.55-4.38,29.55,8.37,48.23C79.21,143.69,46,156.12,20.42,141.67-1.76,129.1-2.46,105.54,9.64,77.38Z"></path>
+     </defs>
+  </svg>
 </body></html>
