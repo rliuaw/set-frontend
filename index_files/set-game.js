@@ -179,7 +179,7 @@ function setGame() {
       playButton.disabled = true;
     }
     setGame.server = server;
-    if (setGame.server.endsWith(':8080') { // TODO improve this?
+    if (setGame.server.endsWith(':8080')) { // TODO improve this?
       setGame.protocol = 'http://';
     } else {
       setGame.protocol = 'https://';
