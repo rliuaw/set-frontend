@@ -134,7 +134,7 @@ function setGame() {
         }
       } else { // Defaults to unchecked, therefore OK
         if (serverBox) {
-          serverBox.value = 'mdlu-rtliu-set-game.herokuapp.com';
+          serverBox.value = 'set-game-env-1.eba-6aamrrds.us-east-1.elasticbeanstalk.com';
         }
       }
       enableAdvancedInput.addEventListener('change', function() {
@@ -146,7 +146,7 @@ function setGame() {
         } else {
           localStorage.setItem('advancedSettings', 'disabled');
           if (serverBox) {
-            serverBox.value = 'mdlu-rtliu-set-game.herokuapp.com';
+            serverBox.value = 'set-game-env-1.eba-6aamrrds.us-east-1.elasticbeanstalk.com';
           }
         }
       });
