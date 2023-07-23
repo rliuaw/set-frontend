@@ -182,7 +182,7 @@ function setGame() {
     if (setGame.server.endsWith(':8080')) { // TODO improve this?
       setGame.protocol = 'http://';
     } else {
-      setGame.protocol = 'https://';
+      setGame.protocol = 'http://'; // kinda jank TODO
     }
     watchAndUpdate();
   };
