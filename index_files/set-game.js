@@ -134,7 +134,7 @@ function setGame() {
         }
       } else { // Defaults to unchecked, therefore OK
         if (serverBox) {
-          serverBox.value = 'set-game-env-1.eba-6aamrrds.us-east-1.elasticbeanstalk.com';
+          serverBox.value = 'set.16kpixels.com';
         }
       }
       enableAdvancedInput.addEventListener('change', function() {
@@ -146,7 +146,7 @@ function setGame() {
         } else {
           localStorage.setItem('advancedSettings', 'disabled');
           if (serverBox) {
-            serverBox.value = 'set-game-env-1.eba-6aamrrds.us-east-1.elasticbeanstalk.com';
+            serverBox.value = 'set.16kpixels.com';
           }
         }
       });
