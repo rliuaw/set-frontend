@@ -134,7 +134,7 @@ function setGame() {
         }
       } else { // Defaults to unchecked, therefore OK
         if (serverBox) {
-          serverBox.value = 'set.16kpixels.com';
+          serverBox.value = 'set.16kpixels.com/api';
         }
       }
       enableAdvancedInput.addEventListener('change', function() {
@@ -146,7 +146,7 @@ function setGame() {
         } else {
           localStorage.setItem('advancedSettings', 'disabled');
           if (serverBox) {
-            serverBox.value = 'set.16kpixels.com';
+            serverBox.value = 'set.16kpixels.com/api';
           }
         }
       });
